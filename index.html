@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة الإلهام الساكن - نظام إدارة مكتبات احترافي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7157c7;
+            --primary-light: #a390e4;
+            --secondary: #f9c846;
+            --dark: #2d3436;
+            --light: #f9f9fb;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #7157c7 0%, #a390e4 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            margin: 0 15px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-hire {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(113, 87, 199, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-hire:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(113, 87, 199, 0.4);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 50px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #636e72;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            border-radius: 20px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+            transform: perspective(1000px) rotateY(-15deg);
+            transition: 0.5s ease;
+            clip-path: inset(85px 0 0 0);
+            /* قص شريط المتصفح العلوي */
+            margin-top: -85px;
+            /* سحب الصورة للأعلى بعد القص */
+        }
+
+        .hero-image img:hover {
+            transform: perspective(1000px) rotateY(0deg) scale(1.02);
+        }
+
+        .badge-expert {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .badge-expert i {
+            font-size: 30px;
+            color: var(--secondary);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Gallery Section --- */
+        .gallery-section {
+            padding: 80px 50px;
+            text-align: center;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: 0.4s;
+            position: relative;
+            height: 250px;
+            background: #fff;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: calc(100% + 85px);
+            object-fit: cover;
+            object-position: top;
+            margin-top: -85px;
+            /* قص شريط المتصفح العلوي */
+            transition: 0.4s;
+        }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            font-weight: 800;
+            color: var(--primary);
+            transform: translateY(100%);
+            transition: 0.4s;
+            text-align: center;
+            border-top: 3px solid var(--secondary);
+            backdrop-filter: blur(5px);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(113, 87, 199, 0.2);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item:hover .caption {
+            transform: translateY(0);
+        }
+
+        /* --- Services/Pricing --- */
+        .services-section {
+            padding: 100px 50px;
+            text-align: center;
+        }
+
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            width: 350px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-10px);
+        }
+
+        .card.premium {
+            background: var(--gradient);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .card.premium:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .card ul {
+            list-style: none;
+            text-align: right;
+            margin-bottom: 30px;
+        }
+
+        .card ul li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card ul li i {
+            color: #1dca6c;
+        }
+
+        .card.premium ul li i {
+            color: var(--secondary);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-solid {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .btn-solid:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        /* Animation classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.8s ease-out;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        @media(max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 120px 20px 30px;
+            }
+
+            .hero-content {
+                padding: 0;
+                margin-bottom: 30px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .badge-expert {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            nav {
+                padding: 15px 20px;
+            }
+
+            .btn-hire {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .gallery-section,
+            .services-section {
+                padding: 50px 10px;
+            }
+
+            /* تصغير المعرض في الجوال والحفاظ على التنسيق */
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .gallery-item {
+                height: 150px;
+                border-radius: 8px;
+            }
+
+            .gallery-item img {
+                margin-top: -45px; /* نسبة قص أصغر لأن الصورة صغرت */
+                height: calc(100% + 45px);
+            }
+
+            .gallery-item .caption {
+                padding: 8px 5px;
+                font-size: 0.75rem;
+            }
+
+            .card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .card.premium {
+                transform: scale(1);
+            }
+
+            .card.premium:hover {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo"><i class="fa-solid fa-book-open"></i> الإلهام الساكن</div>
+        <div class="nav-links">
+            <a href="#home">الرئيسية</a>
+            <a href="#gallery">شاشات النظام</a>
+            <a href="#pricing">الأسعار والخدمات</a>
+        </div>
+        <a href="https://wa.me/967712235581?text=مرحباً%20م.%20ريم،%20أرغب%20بالتواصل%20معكِ%20بخصوص%20مشروع%20المكتبة" class="btn-hire" target="_blank"><i class="fa-brands fa-whatsapp"></i> تواصل معي</a>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content fade-up">
+            <h1>نظام إدارة مكتبات <span>متكامل واحترافي</span></h1>
+            <p>مشروع "الإلهام الساكن" ليس مجرد موقع، بل هو تحفة فنية برمجية مصممة بأحدث معايير تجربة المستخدم (UX)
+                وواجهات المستخدم (UI). جاهز للاستخدام، أو قابل للتخصيص بالكامل ليناسب هويتك التجارية.</p>
+            <a href="https://wa.me/967712235581?text=مرحباً%20م.%20ريم،%20أرغب%20بشراء%20الكود%20المصدري%20لمشروع%20المكتبة" class="btn-hire" style="font-size: 1.1rem; padding: 15px 35px;" target="_blank"><i class="fa-brands fa-whatsapp"></i> شراء الكود المصدري</a>
+            <a href="#gallery"
+                style="margin-right: 20px; color: var(--primary); font-weight: bold; text-decoration: none;">استكشف
+                الواجهات <i class="fa fa-arrow-left"></i></a>
+        </div>
+        <div class="hero-image fade-up">
+            <img src="promo_assets/Screenshot 2026-06-09 020942.png" alt="واجهة النظام">
+            <div class="badge-expert">
+                <i class="fa-solid fa-star"></i>
+                <div>
+                    <strong>تصميم م. ريم الوعيل</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section" id="gallery">
+        <h2 class="section-title fade-up">جولة في واجهات النظام</h2>
+        <p class="fade-up" style="color: #666; max-width: 600px; margin: 0 auto;">تم بناء الواجهات بعناية فائقة لضمان
+            أقصى درجات الراحة البصرية، مع دعم كامل للوضع المتجاوب (Responsive) على كافة الأجهزة.</p>
+
+        <div class="gallery-grid">
+            <!-- User Screens -->
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 021114.png" alt="Screen 1">
+                <div class="caption">واجهة النظام الرئيسية</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 021205.png" alt="Screen 2">
+                <div class="caption">تصفح الأقسام والكتب</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 021451.png" alt="Screen 3">
+                <div class="caption">تفاصيل الكتاب والتقييمات</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 021504.png" alt="Screen 4">
+                <div class="caption">واجهة القراءة الممتعة</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 021544.png" alt="Screen 5">
+                <div class="caption">سلة المشتريات والمفضلة</div>
+            </div>
+
+            <!-- Dashboard Screens -->
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122520.png"
+                    alt="Dashboard 1">
+                <div class="caption">إحصائيات النظام الشاملة</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122540.png"
+                    alt="Dashboard 2">
+                <div class="caption">إدارة المستخدمين والصلاحيات</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122546.png"
+                    alt="Dashboard 3">
+                <div class="caption">إدارة الكتب والإصدارات</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122553.png"
+                    alt="Dashboard 4">
+                <div class="caption">إدارة التصنيفات والأقسام</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122610.png"
+                    alt="Dashboard 5">
+                <div class="caption">متابعة الطلبات والمبيعات</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122634.png"
+                    alt="Dashboard 6">
+                <div class="caption">إدارة التقييمات والتعليقات</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122646.png"
+                    alt="Dashboard 7">
+                <div class="caption">واجهة المراسلات والتواصل</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122655.png"
+                    alt="Dashboard 8">
+                <div class="caption">إعدادات النظام المتقدمة</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122703.png"
+                    alt="Dashboard 9">
+                <div class="caption">إدارة المدونات والمقالات</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 122713.png"
+                    alt="Dashboard 10">
+                <div class="caption">لوحة التحكم بالألعاب التفاعلية</div>
+            </div>
+
+            <!-- More User Screens -->
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 022358.png" alt="Screen 6">
+                <div class="caption">واجهة الألعاب التفاعلية</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 022411.png" alt="Screen 7">
+                <div class="caption">الملف الشخصي للمستخدم</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 022428.png" alt="Screen 8">
+                <div class="caption">نظام الإشعارات الذكي</div>
+            </div>
+            <div class="gallery-item fade-up"><img src="promo_assets/Screenshot 2026-06-09 022503.png" alt="Screen 9">
+                <div class="caption">تسجيل الدخول والتسجيل</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section" id="pricing">
+        <h2 class="section-title fade-up">احصل على نسختك أو اطلب تخصيصاً</h2>
+        <p class="fade-up" style="color: #666;">بصفتي مهندسة وخبيرة في الـ UI/UX، أقدم لك خيارات مرنة تناسب احتياجاتك.
+        </p>
+
+        <div class="pricing-cards">
+            <!-- Card 1 -->
+            <div class="card fade-up">
+                <h3>الكود المصدري</h3>
+                <p>احصل على المشروع كاملاً كما هو لتبدأ عملك فوراً.</p>
+                <ul>
+                    <li><i class="fa fa-check"></i> كود PHP & PostgreSQL نظيف</li>
+                    <li><i class="fa fa-check"></i> تصميم متجاوب 100%</li>
+                    <li><i class="fa fa-check"></i> لوحة تحكم إدارية متكاملة</li>
+                    <li><i class="fa fa-check"></i> نظام الألعاب والسلة والإشعارات</li>
+                </ul>
+                <a href="https://wa.me/967712235581?text=مرحباً%20م.%20ريم،%20أرغب%20بشراء%20الكود%20المصدري%20لمشروع%20المكتبة" class="btn-block btn-outline" target="_blank" style="margin-bottom:10px;"><i class="fa-brands fa-whatsapp" style="font-size:1.2em;"></i> شراء عبر واتساب</a>
+                <a href="mailto:eng.reem.alwaeel@mail.com?subject=شراء%20الكود%20المصدري%20لمشروع%20المكتبة" class="btn-block btn-outline"><i class="fa-regular fa-envelope" style="font-size:1.2em;"></i> تواصل عبر الإيميل</a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card premium fade-up">
+                <h3>تخصيص + UI/UX</h3>
+                <p>سأقوم بتعديل النظام بالكامل ليطابق هوية مشروعك.</p>
+                <ul>
+                    <li><i class="fa fa-star"></i> جميع ميزات الكود المصدري</li>
+                    <li><i class="fa fa-star"></i> تغيير الألوان والشعار والهوية</li>
+                    <li><i class="fa fa-star"></i> إضافة/تعديل واجهات حسب الطلب</li>
+                    <li><i class="fa fa-star"></i> استشارات UI/UX مجانية للمشروع</li>
+                </ul>
+                <a href="https://wa.me/967712235581?text=مرحباً%20م.%20ريم،%20أرغب%20بطلب%20خدمة%20تخصيص%20واجهات%20لمشروعي" class="btn-block btn-solid" target="_blank" style="margin-bottom:10px;"><i class="fa-brands fa-whatsapp" style="font-size:1.2em;"></i> اطلب عبر واتساب</a>
+                <a href="mailto:eng.reem.alwaeel@mail.com?subject=طلب%20خدمة%20تخصيص%20UI/UX" class="btn-block btn-solid"><i class="fa-regular fa-envelope" style="font-size:1.2em;"></i> تواصل عبر الإيميل</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026 - تم التصميم بواسطة <strong>م. ريم الوعيل</strong></p>
+        <p style="margin-top:10px; font-size:14px;">
+            <a href="mailto:eng.reem.alwaeel@mail.com" style="color:var(--primary-light); text-decoration:none; margin-left:15px;"><i class="fa-solid fa-envelope"></i> eng.reem.alwaeel@mail.com</a>
+            <a href="https://wa.me/967712235581" style="color:var(--primary-light); text-decoration:none;" target="_blank"><i class="fa-brands fa-whatsapp"></i> +967 712 235 581</a>
+        </p>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/967712235581?text=مرحباً%20م.%20ريم،%20أرغب%20بالتواصل%20معكِ%20بخصوص%20مشروع%20المكتبة" class="float-wa" target="_blank" style="
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            z-index: 1000;
+            text-decoration: none;
+            transition: transform 0.3s;">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <script>
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
